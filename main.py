@@ -12,7 +12,10 @@ from sqlalchemy.orm import relationship
 from forms import CreatePostForm, RegisterForm, LoginForm, CommentForm
 import sqlalchemy.exc
 from functools import wraps
+import os
+from dotenv import load_dotenv
 
+load_dotenv('secrets.env')
 
 def is_admin():
     # Checking if user ID is 1. If so they are admin.
@@ -48,7 +51,7 @@ def admin_only(func):
 
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = '8BYkEfBA6O6donzWlSihBXox7C0sKR6b'
+app.config['SECRET_KEY'] = os.getenv("FLASK_KEY")
 ckeditor = CKEditor(app)
 Bootstrap5(app)
 
@@ -68,7 +71,7 @@ def load_user(user_id: int):
 
 
 # CONNECT TO DB
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///posts3.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DB_URI')
 db = SQLAlchemy()
 db.init_app(app)
 

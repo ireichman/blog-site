@@ -1,3 +1,4 @@
 /instance
 /venv
 /static/assets/*
+secrets.env
