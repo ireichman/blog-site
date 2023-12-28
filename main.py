@@ -1,3 +1,4 @@
+import os
 from datetime import date
 from flask import Flask, abort, render_template, redirect, url_for, flash
 from flask_bootstrap import Bootstrap as Bootstrap5
@@ -12,10 +13,9 @@ from sqlalchemy.orm import relationship
 from forms import CreatePostForm, RegisterForm, LoginForm, CommentForm
 import sqlalchemy.exc
 from functools import wraps
-import os
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 
-load_dotenv('secrets.env')
+# load_dotenv('secrets.env')
 
 def is_admin():
     # Checking if user ID is 1. If so they are admin.
@@ -51,7 +51,7 @@ def admin_only(func):
 
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = os.getenv("FLASK_KEY")
+app.config['SECRET_KEY'] = os.environ.get("FLASK_KEY")
 ckeditor = CKEditor(app)
 Bootstrap5(app)
 
@@ -71,7 +71,7 @@ def load_user(user_id: int):
 
 
 # CONNECT TO DB
-app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DB_URI')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DB_URI')
 db = SQLAlchemy()
 db.init_app(app)
 
